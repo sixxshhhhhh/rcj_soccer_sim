@@ -1,6 +1,6 @@
 import math
 import json
-
+import time
 robotx , roboty , heading , robot_angle , zavie_maghsad , error_zavie = 0 ,0 , 0 , 0 , 0 , 0 
 robot_pos , data , team_data , ball_data , heading , direction = '' , '' , '' , '' , '' , '' 
 error , error_fasele , xb , yb , ball_x , ball_y , direction , strength , ball_dist = 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0
@@ -8,15 +8,16 @@ toop_be_zamin_x , toop_be_zamin_y , ball_is_available , zavie_toop_be_robot , is
 ASHAR , state = 3 , 1
 
 def get_direction(ball_vector: list) -> int:
-    """Get direction to navigate robot to face the ball
+    
+    # Get direction to navigate robot to face the ball
 
-    Args:
-        ball_vector (list of floats): Current vector of the ball with respect
-            to the robot.
+    # Args:
+    #     ball_vector (list of floats): Current vector of the ball with respect
+    #         to the robot.
 
-    Returns:
-        int: 0 = forward, -1 = right, 1 = left
-    """
+    # Returns:
+    #     int: 0 = forward, -1 = right, 1 = left
+    
     if -0.13 <= ball_vector[1] <= 0.13:
         return 0
     return -1 if ball_vector[1] < 0 else 1
@@ -185,4 +186,4 @@ def turn2(self):
             go_to(self,toop_be_zamin_x-0.05,toop_be_zamin_y+0.045)
         elif toop_be_zamin_x<0 and is_turning==1:
             go_to(self,toop_be_zamin_x+0.05,toop_be_zamin_y+0.045)
- 
+
