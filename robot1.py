@@ -3,7 +3,7 @@
 # Feel free to import built-in libraries
 import math  # noqa: F401
 import json
-
+import time
 # You can also import scripts that you put into the folder with controller
 import utils
 from rcj_soccer_robot import RCJSoccerRobot, TIME_STEP
@@ -20,6 +20,7 @@ robot_num , ballx2 , bally2 , robotx2 , roboty2 , strength2 , ballx3 , bally3 , 
 
 othersBallX , othersBallY , numbersOfValidData , othersBallXFinal , othersBallyFinal , ISeeTheBall3 , ISeeTheBall2 = 0 , 0 , 0 , 0 , 0 , 0 , 0
 
+ball_stop_time , last_time , last_ballY , last_ballX = 0 , 0 , 0 , 0
 
 class MyRobot1(RCJSoccerRobot):
     def send_data(self):
@@ -160,6 +161,22 @@ class MyRobot1(RCJSoccerRobot):
 
 
 
+    def VBall(self):
+        
+        global last_ballX
+        global last_ballY
+        global last_time
+        global ball_stop_time
+
+        if time.time() - last_time > 1:
+            V = math.sqrt((utils.toop_be_zamin_x-last_ballX)**2+(utils.toop_be_zamin_y-last_ballY)**2)
+
+            if V < 0.001 :
+                ball_stop_time+=1
+
+            last_ballX=utils.toop_be_zamin_x
+            last_ballY=utils.toop_be_zamin_y
+            last_time=time.time()
 
     def run(self): 
 
@@ -179,6 +196,8 @@ class MyRobot1(RCJSoccerRobot):
                 utils.sensorUpdates(self)
                 utils.toop_be_zamin_update(self)
                 self.GoalKeeper()
+                self.VBall()
+                
                 
 
                 self.send_data_to_team(self.player_id)
